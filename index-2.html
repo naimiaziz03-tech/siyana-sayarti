@@ -1,73 +1,50 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>صيانة سيارتي</title>
-<style>
-*{box-sizing:border-box}body{margin:0;background:#120f0c;color:#f3ecdf;font-family:Arial,Tahoma,sans-serif}
-.container{max-width:850px;margin:auto;padding:24px 14px 45px}h1{text-align:center;color:#d9a54a;margin:0 0 5px;font-size:28px}.sub{text-align:center;color:#a79c93;margin-bottom:22px}
-.card,.service{background:#211d26;border:1px solid #3a3340;border-radius:16px;padding:17px;margin-bottom:14px}
-label{display:block;color:#d8cfc3;font-size:13px;font-weight:bold;margin:9px 0 6px}
-input{width:100%;padding:12px;border:1px solid #3a3340;border-radius:10px;background:#18141c;color:#fff;font-size:16px}
-button{border:0;border-radius:10px;padding:12px;font-weight:bold;font-size:14px;cursor:pointer}.primary{width:100%;background:#d9a54a;color:#211d26}.add{width:100%;background:#3fa76c;color:#18141c;margin-bottom:14px}.cancel{width:100%;background:#3a3340;color:#fff;margin-top:8px}.delete{width:100%;background:#c1443b;color:#fff;margin-top:8px}
-.msg{text-align:center;color:#3fa76c;min-height:20px;margin:7px}.summary{display:flex;justify-content:center;gap:8px;margin-bottom:14px}.sum{background:#18141c;border:1px solid #3a3340;border-radius:12px;padding:9px 16px;text-align:center;min-width:80px}.num{font-size:21px;font-weight:bold}.red{color:#c1443b}.orange{color:#d9a54a}.green{color:#3fa76c}
-.services{display:grid;grid-template-columns:1fr 1fr;gap:14px}.service{margin:0}.top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.name{font-size:17px;font-weight:bold}.interval,.muted{font-size:11px;color:#a79c93;margin-top:5px}.status{font-size:10px;padding:5px 8px;border-radius:20px;white-space:nowrap}.sg{color:#3fa76c;background:#3fa76c18;border:1px solid #3fa76c55}.sw{color:#d9a54a;background:#d9a54a18;border:1px solid #d9a54a55}.sd{color:#c1443b;background:#c1443b18;border:1px solid #c1443b55}
-.info{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:14px}.ibox{background:#18141c;border-radius:9px;padding:9px;text-align:center}.value{font-weight:bold;margin-top:3px}
-.history{border-top:1px solid #3a3340;margin-top:13px;padding-top:11px}.history h4{margin:0 0 7px;color:#d9a54a;font-size:13px}.history-row{display:flex;justify-content:space-between;color:#8d847b;font-size:11px;padding:3px 0}
-.edit{border-top:1px solid #3a3340;margin-top:12px;padding-top:10px}.editbtn{width:100%;background:#d9a54a;color:#211d26}.remind{width:100%;margin-top:8px;background:#3a3340;color:#d9a54a;border:1px solid #d9a54a55}
-.notice{background:#c1443b15;border:1px solid #c1443b55;color:#f0aaa5;border-radius:12px;padding:11px;margin-bottom:14px;font-size:12px}
-@media(max-width:650px){.services{grid-template-columns:1fr}}
-</style>
-</head>
-<body>
-<div class="container">
-<h1>صيانة سيارتي</h1><div class="sub">لوحة متابعة الصيانة</div>
-<div id="notice"></div>
-<div class="card"><label>قراءة العداد الحالية (كم)</label><input id="currentKm" type="number" inputmode="numeric" placeholder="مثال: 45000"><button class="primary" onclick="saveKm()">حفظ قراءة العداد</button><div id="msg" class="msg"></div></div>
-<div class="summary"><div class="sum"><div id="due" class="num red">0</div><div class="muted">مستحقة</div></div><div class="sum"><div id="soon" class="num orange">0</div><div class="muted">قريبة</div></div><div class="sum"><div id="good" class="num green">0</div><div class="muted">جيدة</div></div></div>
-<button class="add" onclick="showAdd()">➕ إضافة صيانة جديدة</button><div id="addBox"></div><div id="services" class="services"></div>
-</div>
-<script>
-const KM_KEY="siyana_km_v4",DATA_KEY="siyana_services_v4";
-const defaults=[
-{id:"oil",name:"🛢️ زيت المحرك وفلتره",interval:10000,years:null,lastKm:"",lastDate:"",history:[],custom:false},
-{id:"air",name:"🌬️ فلتر الهواء",interval:15000,years:null,lastKm:"",lastDate:"",history:[],custom:false},
-{id:"fuel",name:"⛽ فلتر البنزين",interval:30000,years:5,lastKm:"",lastDate:"",history:[],custom:false},
-{id:"belt",name:"⚙️ حزام التوزيع",interval:70000,years:5,lastKm:"",lastDate:"",history:[],custom:false},
-{id:"brake",name:"🛑 وسادات الفرامل",interval:30000,years:null,lastKm:"",lastDate:"",history:[],custom:false}];
-let services=defaults.map(x=>({...x,history:[]}));
-function load(){const km=localStorage.getItem(KM_KEY);if(km!==null)document.getElementById("currentKm").value=km;try{const s=JSON.parse(localStorage.getItem(DATA_KEY)||"null");if(Array.isArray(s)&&s.length)services=s.map(x=>({...x,history:Array.isArray(x.history)?x.history:[]}))}catch(e){}render()}
-function persist(){localStorage.setItem(DATA_KEY,JSON.stringify(services))}
-function saveKm(){const v=document.getElementById("currentKm").value;if(v===""){showMsg("أدخل قراءة العداد أولاً");return}localStorage.setItem(KM_KEY,v);showMsg("تم حفظ قراءة العداد ✅");render()}
-function showMsg(t){const m=document.getElementById("msg");m.textContent=t;setTimeout(()=>m.textContent="",2200)}
-function fmt(n){return Math.round(Number(n)||0).toLocaleString("en-US")}
-function daysSince(d){if(!d)return null;const a=new Date(d+"T00:00:00"),b=new Date();a.setHours(0,0,0,0);b.setHours(0,0,0,0);return Math.floor((b-a)/86400000)}
-function result(s){const current=Number(document.getElementById("currentKm").value)||0,last=Number(s.lastKm)||0,used=Math.max(0,current-last),remaining=s.interval-used;let days=null;if(s.years&&s.lastDate)days=s.years*365-daysSince(s.lastDate);let status="good",label="بحالة جيدة";if(remaining<=500||(days!==null&&days<=0)){status="danger";label="مستحقة الآن"}else if(remaining<=2000){status="warning";label="قاربت على الاستحقاق"}return{used,remaining,days,status,label}}
-function dateAr(d){if(!d)return"—";try{return new Date(d+"T00:00:00").toLocaleDateString("ar-MA",{year:"numeric",month:"short",day:"numeric"})}catch(e){return d}}
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
-function render(){
-const box=document.getElementById("services");box.innerHTML="";let due=0,soon=0,good=0;
-services.forEach((s,i)=>{const r=result(s);if(r.status==="danger")due++;else if(r.status==="warning")soon++;else good++;const rem=r.remaining<=0?"تجاوز بـ "+fmt(Math.abs(r.remaining))+" كم":fmt(r.remaining)+" كم";let time="";
-if(s.years&&s.lastDate){const d=new Date(s.lastDate+"T00:00:00");d.setFullYear(d.getFullYear()+Number(s.years));time="الموعد الزمني: "+dateAr(d.toISOString().slice(0,10))}
-else if(s.years)time="أدخل تاريخ آخر تغيير لحساب الموعد";
-const hist=(s.history||[]).slice(0,10).map(h=>`<div class="history-row"><span>${h.km===""?"—":fmt(h.km)+" كم"}</span><span>${dateAr(h.date)}</span></div>`).join("");
-box.innerHTML+=`<div class="service"><div class="top"><div><div class="name">${esc(s.name)}</div><div class="interval">كل ${fmt(s.interval)} كم${s.years?" أو كل "+s.years+" سنوات (أيهما أقرب)":""}</div></div><div class="status ${r.status==="good"?"sg":r.status==="warning"?"sw":"sd"}">${r.label}</div></div>
-<div class="info"><div class="ibox"><div class="muted">${r.remaining<=0?"التجاوز":"المتبقي"}</div><div class="value">${rem}</div></div><div class="ibox"><div class="muted">قُطع منذ آخر تغيير</div><div class="value">${fmt(r.used)} كم</div></div></div>
-${time?`<div class="muted" style="text-align:center;margin-top:10px">${time}${r.days!==null&&r.days<=0?" — متجاوز زمنياً":""}</div>`:""}
-<div class="muted" style="display:flex;justify-content:space-between;margin-top:12px"><span>آخر تغيير: ${s.lastKm===""?"—":fmt(s.lastKm)+" كم"}</span><span>${dateAr(s.lastDate)}</span></div>
-${hist?`<div class="history"><h4>📋 سجل التغييرات</h4>${hist}</div>`:""}
-<div class="edit"><label>الكيلومترات عند آخر تغيير</label><input id="km-${i}" type="number" value="${s.lastKm}" inputmode="numeric"><label>تاريخ آخر تغيير</label><input id="date-${i}" type="date" value="${s.lastDate}"><label>دورية التغيير بالكيلومترات</label><input id="int-${i}" type="number" value="${s.interval}" inputmode="numeric"><label>الدورية بالسنوات — اختياري</label><input id="yrs-${i}" type="number" value="${s.years||""}" inputmode="numeric"><button class="editbtn" onclick="saveService(${i})">💾 حفظ البيانات وتسجيلها في السجل</button>
-${r.status!=="good"?`<button class="remind" onclick="reminder(${i})">🔔 إنشاء تذكير في تقويم الهاتف</button>`:""}${s.custom?`<button class="delete" onclick="removeService(${i})">🗑️ حذف هذه الصيانة</button>`:""}</div></div>`});
-document.getElementById("due").textContent=due;document.getElementById("soon").textContent=soon;document.getElementById("good").textContent=good;
-document.getElementById("notice").innerHTML=(due+soon)?`<div class="notice">🔔 لديك ${due+soon} صيانة تحتاج الانتباه. راجع البطاقات بالأسفل.</div>`:"";
-}
-function saveService(i){const s=services[i],km=document.getElementById("km-"+i).value,date=document.getElementById("date-"+i).value,interval=Number(document.getElementById("int-"+i).value)||s.interval,y=document.getElementById("yrs-"+i).value,newKm=km===""?"":Number(km);if(newKm!==s.lastKm||date!==s.lastDate){if(s.lastKm!=="")s.history=[{km:s.lastKm,date:s.lastDate},...(s.history||[])].slice(0,10)}s.lastKm=newKm;s.lastDate=date;s.interval=interval;s.years=y===""?null:Number(y);persist();showMsg("تم الحفظ وتحديث سجل الصيانة ✅");render()}
-function showAdd(){document.getElementById("addBox").innerHTML=`<div class="card"><h3 style="color:#d9a54a;margin-top:0">إضافة صيانة جديدة</h3><label>اسم الصيانة</label><input id="newName" placeholder="مثال: شمعات الاحتراق"><label>دورية التغيير بالكيلومترات</label><input id="newInt" type="number" inputmode="numeric" placeholder="مثال: 30000"><label>الدورية بالسنوات — اختياري</label><input id="newYears" type="number" inputmode="numeric"><label>الكيلومترات عند آخر تغيير</label><input id="newKm" type="number" inputmode="numeric"><label>تاريخ آخر تغيير</label><input id="newDate" type="date"><button class="primary" onclick="addService()">إضافة</button><button class="cancel" onclick="document.getElementById('addBox').innerHTML=''">إلغاء</button></div>`}
-function addService(){const name=document.getElementById("newName").value.trim(),interval=Number(document.getElementById("newInt").value);if(!name||!interval){alert("أدخل اسم الصيانة ودورية صحيحة");return}const y=document.getElementById("newYears").value,k=document.getElementById("newKm").value,d=document.getElementById("newDate").value;services.push({id:"custom-"+Date.now(),name:"🔧 "+name,interval,years:y===""?null:Number(y),lastKm:k===""?"":Number(k),lastDate:d,history:[],custom:true});persist();document.getElementById("addBox").innerHTML="";showMsg("تمت إضافة الصيانة ✅");render()}
-function removeService(i){if(confirm("هل تريد حذف هذه الصيانة؟")){services.splice(i,1);persist();render();showMsg("تم حذف الصيانة")}}
-function reminder(i){const s=services[i],r=result(s),current=Number(document.getElementById("currentKm").value)||0,now=new Date(),pad=n=>String(n).padStart(2,"0"),stamp=now.getUTCFullYear()+pad(now.getUTCMonth()+1)+pad(now.getUTCDate())+"T"+pad(now.getUTCHours())+pad(now.getUTCMinutes())+pad(now.getUTCSeconds())+"Z",desc=r.remaining<=0?`صيانة ${s.name} مستحقة الآن. العداد الحالي ${fmt(current)} كم.`:`تبقى ${fmt(r.remaining)} كم على صيانة ${s.name}. العداد الحالي ${fmt(current)} كم.`,ics=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Siyana Sayarti//AR","BEGIN:VEVENT","UID:siyana-"+Date.now()+"@app","DTSTAMP:"+stamp,"DTSTART:"+stamp,"SUMMARY:صيانة السيارة - "+s.name,"DESCRIPTION:"+desc,"BEGIN:VALARM","TRIGGER:PT0M","ACTION:DISPLAY","DESCRIPTION:"+desc,"END:VALARM","END:VEVENT","END:VCALENDAR"].join("\r\n"),blob=new Blob([ics],{type:"text/calendar;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="تذكير-"+s.id+".ics";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000)}
-load();
-</script>
-</body>
-</html>
+name: Build APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build web app
+        run: npm run build
+
+      - name: Add Android
+        run: npx cap add android
+
+      - name: Sync Capacitor
+        run: npx cap sync android
+
+      - name: Build APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: siyana-sayarti-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
