@@ -1,33 +1,163 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>اختبار صيانة سيارتي</title>
-  <style>
-    body {
-      margin: 0;
-      background: #151515;
-      color: white;
-      font-family: Arial;
-      text-align: center;
-      padding-top: 100px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>صيانة سيارتي</title>
 
-    h1 {
-      color: #D9A54A;
-      font-size: 30px;
-    }
+<style>
+* {
+  box-sizing: border-box;
+}
 
-    p {
-      font-size: 18px;
-    }
-  </style>
+body {
+  margin: 0;
+  background: #120F0C;
+  color: #F3ECDF;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  max-width: 700px;
+  margin: auto;
+  padding: 30px 16px;
+}
+
+h1 {
+  color: #D9A54A;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #A79C93;
+  margin-bottom: 25px;
+}
+
+.card {
+  background: #211D26;
+  border: 1px solid #3A3340;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  color: #D8CFC3;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #3A3340;
+  background: #18141C;
+  color: white;
+  font-size: 18px;
+}
+
+button {
+  width: 100%;
+  margin-top: 12px;
+  padding: 13px;
+  border: 0;
+  border-radius: 10px;
+  background: #D9A54A;
+  color: #211D26;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.result {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 18px;
+}
+
+.ok {
+  color: #3FA76C;
+}
+</style>
 </head>
+
 <body>
 
-<h1>صيانة سيارتي</h1>
-<p>إذا كنت ترى هذه الرسالة، فإن Capacitor يعمل بشكل صحيح ✅</p>
+<div class="container">
+
+  <h1>صيانة سيارتي</h1>
+  <div class="subtitle">لوحة متابعة الصيانة</div>
+
+  <div class="card">
+
+    <label>
+      قراءة العداد الحالية (كم)
+    </label>
+
+    <input
+      id="kilometers"
+      type="number"
+      inputmode="numeric"
+      placeholder="مثال: 45000"
+    >
+
+    <button onclick="saveKilometers()">
+      حفظ قراءة العداد
+    </button>
+
+    <div id="result" class="result"></div>
+
+  </div>
+
+</div>
+
+<script>
+
+const STORAGE_KEY = "siyana_kilometers";
+
+function loadKilometers() {
+
+  const saved = localStorage.getItem(STORAGE_KEY);
+
+  if (saved !== null) {
+
+    document.getElementById("kilometers").value = saved;
+
+    document.getElementById("result").innerHTML =
+      '<span class="ok">تم تحميل القراءة المحفوظة: ' +
+      Number(saved).toLocaleString() +
+      ' كم</span>';
+
+  }
+
+}
+
+function saveKilometers() {
+
+  const input = document.getElementById("kilometers");
+
+  const value = input.value;
+
+  if (value === "") {
+
+    document.getElementById("result").innerHTML =
+      "أدخل قراءة العداد أولاً";
+
+    return;
+  }
+
+  localStorage.setItem(STORAGE_KEY, value);
+
+  document.getElementById("result").innerHTML =
+    '<span class="ok">تم الحفظ بنجاح ✅</span>';
+}
+
+loadKilometers();
+
+</script>
 
 </body>
 </html>
