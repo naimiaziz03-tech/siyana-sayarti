@@ -6,80 +6,191 @@
 <title>صيانة سيارتي</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:#120F0C;
+  color:#F3ECDF;
+  font-family:Arial,Tahoma,sans-serif;
 }
 
-body {
-  margin: 0;
-  background: #120F0C;
-  color: #F3ECDF;
-  font-family: Arial, sans-serif;
+.container{
+  max-width:850px;
+  margin:auto;
+  padding:25px 15px 40px;
 }
 
-.container {
-  max-width: 700px;
-  margin: auto;
-  padding: 30px 16px;
+h1{
+  text-align:center;
+  color:#D9A54A;
+  margin:0 0 5px;
+  font-size:28px;
 }
 
-h1 {
-  color: #D9A54A;
-  text-align: center;
-  margin-bottom: 5px;
+.subtitle{
+  text-align:center;
+  color:#A79C93;
+  margin-bottom:25px;
 }
 
-.subtitle {
-  text-align: center;
-  color: #A79C93;
-  margin-bottom: 25px;
+.main-card,.service{
+  background:#211D26;
+  border:1px solid #3A3340;
+  border-radius:16px;
+  padding:18px;
+  margin-bottom:15px;
 }
 
-.card {
-  background: #211D26;
-  border: 1px solid #3A3340;
-  border-radius: 16px;
-  padding: 20px;
-  margin-bottom: 15px;
+label{
+  display:block;
+  color:#D8CFC3;
+  font-weight:bold;
+  margin-bottom:8px;
 }
 
-label {
-  display: block;
-  color: #D8CFC3;
-  margin-bottom: 8px;
-  font-weight: bold;
+input{
+  width:100%;
+  padding:13px;
+  border-radius:10px;
+  border:1px solid #3A3340;
+  background:#18141C;
+  color:#fff;
+  font-size:17px;
 }
 
-input {
-  width: 100%;
-  padding: 14px;
-  border-radius: 10px;
-  border: 1px solid #3A3340;
-  background: #18141C;
-  color: white;
-  font-size: 18px;
+button{
+  border:0;
+  border-radius:10px;
+  padding:12px;
+  font-weight:bold;
+  cursor:pointer;
 }
 
-button {
-  width: 100%;
-  margin-top: 12px;
-  padding: 13px;
-  border: 0;
-  border-radius: 10px;
-  background: #D9A54A;
-  color: #211D26;
-  font-weight: bold;
-  font-size: 15px;
+.save{
+  width:100%;
+  margin-top:10px;
+  background:#D9A54A;
+  color:#211D26;
 }
 
-.result {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 18px;
+.services{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
 }
 
-.ok {
-  color: #3FA76C;
+.service-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.service-name{
+  font-size:17px;
+  font-weight:bold;
+}
+
+.interval{
+  color:#A79C93;
+  font-size:12px;
+  margin-top:5px;
+}
+
+.status{
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:11px;
+  white-space:nowrap;
+}
+
+.good{
+  color:#3FA76C;
+  border:1px solid #3FA76C55;
+  background:#3FA76C12;
+}
+
+.warning{
+  color:#D9A54A;
+  border:1px solid #D9A54A55;
+  background:#D9A54A12;
+}
+
+.danger{
+  color:#C1443B;
+  border:1px solid #C1443B55;
+  background:#C1443B12;
+}
+
+.info{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  text-align:center;
+  margin-top:18px;
+}
+
+.info-box{
+  background:#18141C;
+  border-radius:10px;
+  padding:10px;
+}
+
+.small{
+  color:#A79C93;
+  font-size:11px;
+}
+
+.number{
+  font-size:19px;
+  font-weight:bold;
+  margin-top:4px;
+}
+
+.edit{
+  margin-top:15px;
+  padding-top:15px;
+  border-top:1px solid #3A3340;
+}
+
+.edit button{
+  margin-top:10px;
+  width:100%;
+  background:#3FA76C;
+  color:#18141C;
+}
+
+.message{
+  text-align:center;
+  margin:12px 0;
+  color:#3FA76C;
+}
+
+.summary{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-bottom:20px;
+}
+
+.summary-box{
+  background:#18141C;
+  border:1px solid #3A3340;
+  border-radius:12px;
+  padding:10px 18px;
+  text-align:center;
+}
+
+.summary-number{
+  font-size:22px;
+  font-weight:bold;
+}
+
+@media(max-width:650px){
+  .services{
+    grid-template-columns:1fr;
+  }
 }
 </style>
 </head>
@@ -88,76 +199,370 @@ button {
 
 <div class="container">
 
-  <h1>صيانة سيارتي</h1>
-  <div class="subtitle">لوحة متابعة الصيانة</div>
+<h1>صيانة سيارتي</h1>
+<div class="subtitle">لوحة متابعة الصيانة</div>
 
-  <div class="card">
+<div class="main-card">
 
-    <label>
-      قراءة العداد الحالية (كم)
-    </label>
+<label>قراءة العداد الحالية (كم)</label>
 
-    <input
-      id="kilometers"
-      type="number"
-      inputmode="numeric"
-      placeholder="مثال: 45000"
-    >
+<input
+  id="currentKm"
+  type="number"
+  inputmode="numeric"
+  placeholder="مثال: 45000"
+>
 
-    <button onclick="saveKilometers()">
-      حفظ قراءة العداد
-    </button>
+<button class="save" onclick="saveKm()">
+حفظ قراءة العداد
+</button>
 
-    <div id="result" class="result"></div>
+<div id="message" class="message"></div>
 
-  </div>
+</div>
+
+<div class="summary">
+
+<div class="summary-box">
+<div id="dueCount" class="summary-number danger">0</div>
+<div class="small">مستحقة</div>
+</div>
+
+<div class="summary-box">
+<div id="warningCount" class="summary-number warning">0</div>
+<div class="small">قريبة</div>
+</div>
+
+</div>
+
+<div id="services" class="services"></div>
 
 </div>
 
 <script>
 
-const STORAGE_KEY = "siyana_kilometers";
+const KM_KEY = "siyana_km";
+const DATA_KEY = "siyana_services";
 
-function loadKilometers() {
+const defaultServices = [
 
-  const saved = localStorage.getItem(STORAGE_KEY);
+{
+ id:"oil",
+ name:"🛢️ زيت المحرك وفلتره",
+ interval:10000,
+ years:null,
+ lastKm:"",
+ lastDate:""
+},
 
-  if (saved !== null) {
+{
+ id:"air",
+ name:"🌬️ فلتر الهواء",
+ interval:15000,
+ years:null,
+ lastKm:"",
+ lastDate:""
+},
 
-    document.getElementById("kilometers").value = saved;
+{
+ id:"fuel",
+ name:"⛽ فلتر البنزين",
+ interval:30000,
+ years:5,
+ lastKm:"",
+ lastDate:""
+},
 
-    document.getElementById("result").innerHTML =
-      '<span class="ok">تم تحميل القراءة المحفوظة: ' +
-      Number(saved).toLocaleString() +
-      ' كم</span>';
+{
+ id:"belt",
+ name:"⚙️ حزام التوزيع",
+ interval:70000,
+ years:5,
+ lastKm:"",
+ lastDate:""
+},
 
-  }
+{
+ id:"brake",
+ name:"🛑 وسادات الفرامل",
+ interval:30000,
+ years:null,
+ lastKm:"",
+ lastDate:""
+}
+
+];
+
+let services = defaultServices;
+
+function loadData(){
+
+const savedKm = localStorage.getItem(KM_KEY);
+
+if(savedKm !== null){
+document.getElementById("currentKm").value = savedKm;
+}
+
+const savedData = localStorage.getItem(DATA_KEY);
+
+if(savedData){
+
+try{
+
+services = JSON.parse(savedData);
+
+}catch(e){
+
+services = defaultServices;
 
 }
 
-function saveKilometers() {
-
-  const input = document.getElementById("kilometers");
-
-  const value = input.value;
-
-  if (value === "") {
-
-    document.getElementById("result").innerHTML =
-      "أدخل قراءة العداد أولاً";
-
-    return;
-  }
-
-  localStorage.setItem(STORAGE_KEY, value);
-
-  document.getElementById("result").innerHTML =
-    '<span class="ok">تم الحفظ بنجاح ✅</span>';
 }
 
-loadKilometers();
+}
 
-</script>
+function saveAll(){
 
-</body>
-</html>
+localStorage.setItem(
+DATA_KEY,
+JSON.stringify(services)
+);
+
+}
+
+function saveKm(){
+
+const input = document.getElementById("currentKm");
+
+if(input.value === ""){
+
+document.getElementById("message").innerText =
+"أدخل قراءة العداد أولاً";
+
+return;
+
+}
+
+localStorage.setItem(KM_KEY,input.value);
+
+document.getElementById("message").innerText =
+"تم حفظ قراءة العداد بنجاح ✅";
+
+render();
+
+}
+
+function formatKm(value){
+
+return Math.round(Number(value)||0)
+.toLocaleString("en-US");
+
+}
+
+function today(){
+
+return new Date()
+.toISOString()
+.slice(0,10);
+
+}
+
+function daysSince(date){
+
+if(!date) return null;
+
+const start =
+new Date(date+"T00:00:00");
+
+const now =
+new Date();
+
+start.setHours(0,0,0,0);
+now.setHours(0,0,0,0);
+
+return Math.floor(
+(now-start)/86400000
+);
+
+}
+
+function getStatus(service){
+
+const current =
+Number(document.getElementById("currentKm").value)||0;
+
+const last =
+Number(service.lastKm)||0;
+
+const used =
+Math.max(0,current-last);
+
+const remaining =
+service.interval-used;
+
+let remainingDays = null;
+
+if(service.years && service.lastDate){
+
+const days =
+daysSince(service.lastDate);
+
+remainingDays =
+service.years*365-days;
+
+}
+
+if(
+remaining <= 500 ||
+(remainingDays !== null && remainingDays <= 0)
+){
+
+return {
+status:"danger",
+label:"مستحقة الآن",
+remaining:remaining,
+remainingDays:remainingDays,
+used:used
+};
+
+}
+
+if(remaining <= 2000){
+
+return {
+status:"warning",
+label:"قاربت على الاستحقاق",
+remaining:remaining,
+remainingDays:remainingDays,
+used:used
+};
+
+}
+
+return {
+status:"good",
+label:"بحالة جيدة",
+remaining:remaining,
+remainingDays:remainingDays,
+used:used
+};
+
+}
+
+function render(){
+
+const container =
+document.getElementById("services");
+
+container.innerHTML="";
+
+let due=0;
+let warning=0;
+
+services.forEach((service,index)=>{
+
+const result =
+getStatus(service);
+
+if(result.status==="danger") due++;
+if(result.status==="warning") warning++;
+
+let dateText =
+service.lastDate || "غير محدد";
+
+let lastKmText =
+service.lastKm==="" ?
+"غير محدد" :
+formatKm(service.lastKm)+" كم";
+
+let remainingText;
+
+if(result.remaining <= 0){
+
+remainingText =
+"تجاوز الموعد بـ "+
+formatKm(Math.abs(result.remaining))+
+" كم";
+
+}else{
+
+remainingText =
+"المتبقي "+
+formatKm(result.remaining)+
+" كم";
+
+}
+
+container.innerHTML += `
+
+<div class="service">
+
+<div class="service-header">
+
+<div>
+
+<div class="service-name">
+${service.name}
+</div>
+
+<div class="interval">
+كل ${formatKm(service.interval)} كم
+${service.years ?
+" أو كل "+service.years+" سنوات":
+""}
+</div>
+
+</div>
+
+<div class="status ${result.status}">
+${result.label}
+</div>
+
+</div>
+
+<div class="info">
+
+<div class="info-box">
+
+<div class="small">
+${result.remaining<=0 ?
+"التجاوز":
+"المتبقي"}
+</div>
+
+<div class="number">
+${remainingText}
+</div>
+
+</div>
+
+<div class="info-box">
+
+<div class="small">
+قُطع منذ آخر تغيير
+</div>
+
+<div class="number">
+${formatKm(result.used)} كم
+</div>
+
+</div>
+
+</div>
+
+<div class="edit">
+
+<label>
+الكيلومترات عند آخر تغيير
+</label>
+
+<input
+id="lastKm-${index}"
+type="number"
+value="${service.lastKm}"
+placeholder="مثال: 40000"
+>
+
+<label style="margin-top:10px">
+تاريخ آخر تغيير
+</label
