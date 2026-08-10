@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#120F0C">
+<title>صيانة سيارتي</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;padding:0;background:#120F0C;color:#F3ECDF;font-family:Arial,Tahoma,sans-serif}
+body{min-height:100vh}.app{min-height:100vh;background:linear-gradient(#221D24,#1A1712,#120F0C)}
+.wrap{max-width:900px;margin:auto;padding:28px 16px 40px}
+.header{display:flex;justify-content:space-between;gap:16px;margin-bottom:22px}
+.title{font-size:28px;font-weight:900;margin:5px 0}.sub{color:#A79C93;font-size:12px}
+.gold{color:#D9A54A}.card{border:1px solid #3A3340;background:#211D26;border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:0 8px 25px #0004}
+.row{display:flex;gap:12px;align-items:center}.between{justify-content:space-between}.grow{flex:1}
+input{width:100%;background:#18141C;color:#F3ECDF;border:1px solid #3A3340;border-radius:10px;padding:11px 12px;font-size:16px;outline:none}
+input:focus{border-color:#D9A54A}.label{display:block;color:#D8CFC3;font-size:13px;font-weight:bold;margin-bottom:8px}
+.stats{display:flex;gap:10px}.stat{min-width:82px;text-align:center;border:1px solid #3A3340;background:#18141C;border-radius:12px;padding:10px}
+.stat b{display:block;font-size:22px}.red{color:#C1443B}.warn{color:#D9A54A}.green{color:#3FA76C}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.item{border-radius:16px;border:1px solid #3A3340;padding:16px;background:#18141C}.item.good{border-color:#3FA76C55;background:#3FA76C0f}.item.warn{border-color:#D9A54A66;background:#D9A54A12}.item.danger{border-color:#C1443B66;background:#C1443B14}
+.icon{width:40px;height:40px;border-radius:11px;background:#2A2430;display:flex;align-items:center;justify-content:center;color:#D9A54A;font-size:20px}
+.name{font-weight:800;font-size:15px}.tiny{font-size:11px;color:#A79C93}.status{font-size:11px;border:1px solid currentColor;border-radius:20px;padding:5px 8px;white-space:nowrap}
+.gauge{margin:8px 0 0}.gauge svg{width:100%;height:100px}
+.two{display:grid;grid-template-columns:1fr 1fr;text-align:center;gap:8px;margin-top:-5px}.big{font-size:19px;font-weight:800;margin-top:3px}
+.actions{display:flex;gap:8px;margin-top:12px}.btn{border:0;border-radius:10px;padding:11px 12px;font-weight:bold;cursor:pointer;font-size:13px}.primary{background:#D9A54A;color:#211D26}.success{background:#3FA76C;color:#18141C}.ghost{background:transparent;border:1px solid #3A3340;color:#D8CFC3}.btn:disabled{opacity:.4}
+.sep{border-top:1px solid #3A3340;margin-top:12px;padding-top:10px}.history{color:#7A7168;font-size:11px;margin-top:10px}.history div{display:flex;justify-content:space-between}
+.edit{background:#18141C;border:1px solid #3A3340;border-radius:12px;padding:12px;margin-top:10px}.edit label{display:block;margin-bottom:9px;color:#A79C93;font-size:11px}.footer{text-align:center;color:#7A7168;font-size:11px;margin-top:26px}
+@media(max-width:650px){.grid{grid-template-columns:1fr}.wrap{padding-top:22px}.title{font-size:25px}.header{align-items:flex-start}.stats{width:100%;justify-content:flex-end}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+const KEY="car-maintenance-state-v1";
+const DEFAULT=[
+{id:"engine-oil",name:"زيت المحرك وفلتره",icon:"🛢️",intervalKm:10000,years:null,lastKm:"",lastDate:"",history:[]},
+{id:"air-filter",name:"فلتر الهواء",icon:"≋",intervalKm:15000,years:null,lastKm:"",lastDate:"",history:[]},
+{id:"fuel-filter",name:"فلتر البنزين",icon:"⛽",intervalKm:30000,years:5,lastKm:"",lastDate:"",history:[]},
+{id:"timing-belt",name:"حزام التوزيع",icon:"⚙",intervalKm:70000,years:5,lastKm:"",lastDate:"",history:[]},
+{id:"brake-pads",name:"وسادات الفرامل",icon:"◉",intervalKm:30000,years:null,lastKm:"",lastDate:"",history:[]}
+];
+let state={items:DEFAULT,currentKm:"",email:"",showEmail:false};
+
+function load(){try{const x=JSON.parse(localStorage.getItem(KEY));if(x){state.items=x.items||DEFAULT;state.currentKm=x.currentKm??"";state.email=x.email||""}}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+function today(){return new Date().toISOString().slice(0,10)}
+function km(n){return Math.round(Number(n)||0).toLocaleString("en-US")}
+function dateAr(s){if(!s)return"—";const d=new Date(s+"T00:00:00");return isNaN(d)?"—":d.toLocaleDateString("ar-EG-u-nu-latn",{year:"numeric",month:"long",day:"numeric"})}
+function daysBetween(s){if(!s)return null;const a=new Date(s+"T00:00:00"),b=new Date();a.setHours(0,0,0,0);b.setHours(0,0,0,0);return Math.floor((b-a)/86400000)}
+function timing(it){const since=Math.max(0,(Number(state.currentKm)||0)-(Number(it.lastKm)||0));const rem=it.intervalKm-since;let days=null;if(it.years&&it.lastDate){const ds=daysBetween(it.lastDate);if(ds!=null)days=it.years*365-ds}return{since,rem,days}}
+function status(t){if(t.rem<=500||(t.days!=null&&t.days<=0))return"danger";if(t.rem<=2000)return"warn";return"good"}
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+
+function gauge(p,st){
+ p=Math.max(0,Math.min(100,p));const r=52,c=Math.PI*r,d=p/100*c;
+ const col=st==="danger"?"#C1443B":st==="warn"?"#D9A54A":"#3FA76C";
+ return `<svg viewBox="0 0 140 82"><path d="M10 74 A54 54 0 0 1 130 74" fill="none" stroke="#3E3648" stroke-width="10" stroke-linecap="round"/><path d="M10 74 A54 54 0 0 1 130 74" fill="none" stroke="${col}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${d} ${c}"/><line x1="70" y1="74" x2="70" y2="26" stroke="#F3ECDF" stroke-width="2.5" stroke-linecap="round" transform="rotate(${-90+p*1.8} 70 74)"/><circle cx="70" cy="74" r="5" fill="#F3ECDF"/></svg>`
+}
+function report(){
+ return [`تقرير صيانة السيارة — قراءة العداد: ${km(state.currentKm)} كم`,"",...state.items.flatMap(it=>{const t=timing(it);return[`• ${it.name}`,`  آخر تغيير: ${it.lastKm===""?"غير محدد":km(it.lastKm)+" كم"} — ${dateAr(it.lastDate)}`,`  الدورية: كل ${km(it.intervalKm)} كم${it.years?" أو "+it.years+" سنوات":""}`,`  ${t.rem<=0?"تجاوز الموعد بـ":"المتبقي"}: ${km(Math.abs(t.rem))} كم`,""]})].join("\n")
+}
+function emailReport(){if(!state.email)return;location.href=`mailto:${encodeURIComponent(state.email)}?subject=${encodeURIComponent("تقرير صيانة السيارة")}&body=${encodeURIComponent(report())}`}
+function reminder(it,t){
+ const text=t.rem<=0?`موعد ${it.name} مستحق الآن.`:`تبقّى ${km(t.rem)} كم على موعد ${it.name}.`;
+ const blob=new Blob([`BEGIN:VCALENDAR\r\nVERSION:2.0\r\nBEGIN:VEVENT\r\nSUMMARY:${it.name}\r\nDTSTART:${new Date().toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,"")}\r\nDESCRIPTION:${text}\r\nEND:VEVENT\r\nEND:VCALENDAR`],{type:"text/calendar"});
+ const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=it.id+"-تذكير.ics";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)
+}
+
+function card(it){
+ const t=timing(it),st=status(t), used=it.intervalKm?Math.max(0,((it.intervalKm-t.rem)/it.intervalKm)*100):0;
+ const label=st==="danger"?"مستحقة الآن":st==="warn"?"قاربت على الاستحقاق":"بحالة جيدة";
+ return `<div class="item ${st}">
+  <div class="row between"><div class="row"><div class="icon">${it.icon}</div><div><div class="name">${esc(it.name)}</div><div class="tiny">كل ${km(it.intervalKm)} كم${it.years?" أو كل "+it.years+" سنوات (أيهما أقرب)":""}</div></div></div><span class="status ${st==="good"?"green":st==="warn"?"warn":"red"}">${label}</span></div>
+  <div class="gauge">${gauge(used,st)}</div>
+  <div class="two"><div><div class="tiny">${t.rem<=0?"تجاوز الموعد بـ":"المتبقي حتى التغيير"}</div><div class="big ${t.rem<=0?"red":""}">${km(Math.abs(t.rem))} <span class="tiny">كم</span></div></div><div><div class="tiny">قُطع منذ آخر تغيير</div><div class="big">${km(t.since)} <span class="tiny">كم</span></div></div></div>
+  ${it.years?(it.lastDate?`<div class="tiny" style="text-align:center;margin-top:8px">الموعد الزمني: ${dateAr(new Date(new Date(it.lastDate+"T00:00:00").setFullYear(new Date(it.lastDate+"T00:00:00").getFullYear()+it.years)).toISOString().slice(0,10))}</div>`:`<div class="tiny" style="text-align:center;margin-top:8px">أدخل تاريخ آخر تغيير لحساب الموعد الزمني</div>`):""}
+  <div class="sep tiny row between"><span>آخر تغيير: ${it.lastKm===""?"—":km(it.lastKm)+" كم"}</span><span>${dateAr(it.lastDate)}</span></div>
+  ${(it.history||[]).length?`<div class="history"><div>تغييرات سابقة</div>${it.history.map(h=>`<div><span>${h.km===""?"—":km(h.km)+" كم"}</span><span>${dateAr(h.date)}</span></div>`).join("")}</div>`:""}
+  ${st!=="good"?`<button class="btn ghost" style="width:100%;margin-top:10px" onclick="reminder(state.items.find(x=>x.id==='${it.id}'),timing(state.items.find(x=>x.id==='${it.id}')))">🔔 إرسال تذكير إلى تقويم الهاتف</button>`:""}
+  <div id="edit-${it.id}" class="actions"><button class="btn primary grow" onclick="mark('${it.id}')">${state.currentKm===""?"أدخل قراءة العداد أولًا":"تم التغيير اليوم بعداد "+km(state.currentKm)+" كم"}</button><button class="btn ghost" onclick="edit('${it.id}')">تعديل</button></div>
+ </div>`
+}
+function edit(id){
+ const it=state.items.find(x=>x.id===id);const el=document.getElementById("edit-"+id);
+ el.outerHTML=`<div class="edit" id="edit-${id}"><label>الكيلومترات عند آخر تغيير<input id="k-${id}" type="number" value="${esc(it.lastKm)}"></label><label>تاريخ آخر تغيير<input id="d-${id}" type="date" value="${esc(it.lastDate||today())}"></label><label>دورية التغيير (كم)<input id="i-${id}" type="number" value="${it.intervalKm}"></label><label>الدورية الزمنية (سنوات) — اختياري<input id="y-${id}" type="number" value="${it.years??""}"></label><div class="actions"><button class="btn success grow" onclick="saveEdit('${id}')">حفظ</button><button class="btn ghost grow" onclick="render()">إلغاء</button></div></div>`
+}
+function saveEdit(id){
+ const it=state.items.find(x=>x.id===id),nk=document.getElementById("k-"+id).value,nd=document.getElementById("d-"+id).value,ni=Number(document.getElementById("i-"+id).value)||it.intervalKm,ny=document.getElementById("y-"+id).value;
+ if(it.lastKm!==""&&(String(it.lastKm)!==String(nk)||it.lastDate!==nd))it.history=[{km:it.lastKm,date:it.lastDate},...(it.history||[])].slice(0,10);
+ Object.assign(it,{lastKm:nk===""?"":Number(nk)||0,lastDate:nd,intervalKm:ni,years:ny===""?null:Number(ny)||null});save();render()
+}
+function mark(id){if(state.currentKm===""||state.currentKm==null)return;const it=state.items.find(x=>x.id===id);if(it.lastKm!=="")it.history=[{km:it.lastKm,date:it.lastDate},...(it.history||[])].slice(0,10);it.lastKm=Number(state.currentKm)||0;it.lastDate=today();save();render()}
+function render(){
+ const due=state.items.filter(x=>{const t=timing(x);return t.rem<=500||(t.days!=null&&t.days<=0)}).length;
+ const soon=state.items.filter(x=>{const t=timing(x);return !(t.rem<=500||(t.days!=null&&t.days<=0))&&t.rem<=2000}).length;
+ document.getElementById("app").innerHTML=`<div class="app"><div class="wrap">
+ <div class="header"><div><div class="gold">◉ <span class="sub">لوحة متابعة الصيانة</span></div><div class="title">صيانة سيارتي</div></div><button class="btn ghost" onclick="state.showEmail=!state.showEmail;render()">✉</button></div>
+ <div class="card"><div class="row"><div class="grow"><label class="label">قراءة العداد الحالية (كم)</label><input type="number" inputmode="numeric" value="${esc(state.currentKm)}" placeholder="مثال: 45000" oninput="state.currentKm=this.value===''?'':Number(this.value);save();render()"></div><div class="stats"><div class="stat"><b class="red">${due}</b><span class="tiny">مستحقة</span></div><div class="stat"><b class="warn">${soon}</b><span class="tiny">قريبة</span></div></div></div></div>
+ ${state.showEmail?`<div class="card"><label class="label">البريد الإلكتروني لإرسال تقرير الصيانة</label><div class="row"><input class="grow" type="email" value="${esc(state.email)}" oninput="state.email=this.value;save()"><button class="btn success" onclick="emailReport()" ${state.email?"":"disabled"}>إرسال التقرير</button></div><div class="tiny" style="margin-top:8px">سيفتح تطبيق البريد برسالة جاهزة.</div></div>`:""}
+ <div class="grid">${state.items.map(card).join("")}</div>
+ <div class="footer">بياناتك محفوظة تلقائيًا على هذا الجهاز</div>
+ </div></div>`
+}
+load();render();
+</script>
+</body>
+</html>
