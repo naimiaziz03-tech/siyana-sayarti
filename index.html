@@ -9,188 +9,222 @@
 *{box-sizing:border-box}
 
 body{
-  margin:0;
-  background:#120F0C;
-  color:#F3ECDF;
-  font-family:Arial,Tahoma,sans-serif;
+margin:0;
+background:#120F0C;
+color:#F3ECDF;
+font-family:Arial,Tahoma,sans-serif
 }
 
 .container{
-  max-width:850px;
-  margin:auto;
-  padding:25px 15px 40px;
+max-width:850px;
+margin:auto;
+padding:25px 15px 40px
 }
 
 h1{
-  text-align:center;
-  color:#D9A54A;
-  margin:0 0 5px;
-  font-size:28px;
+text-align:center;
+color:#D9A54A;
+margin:0 0 5px;
+font-size:28px
 }
 
 .subtitle{
-  text-align:center;
-  color:#A79C93;
-  margin-bottom:25px;
+text-align:center;
+color:#A79C93;
+margin-bottom:25px
 }
 
-.main-card,.service{
-  background:#211D26;
-  border:1px solid #3A3340;
-  border-radius:16px;
-  padding:18px;
-  margin-bottom:15px;
+.card{
+background:#211D26;
+border:1px solid #3A3340;
+border-radius:16px;
+padding:18px;
+margin-bottom:15px
 }
 
 label{
-  display:block;
-  color:#D8CFC3;
-  font-weight:bold;
-  margin-bottom:8px;
+display:block;
+color:#D8CFC3;
+font-weight:bold;
+margin-bottom:7px;
+font-size:14px
 }
 
 input{
-  width:100%;
-  padding:13px;
-  border-radius:10px;
-  border:1px solid #3A3340;
-  background:#18141C;
-  color:#fff;
-  font-size:17px;
+width:100%;
+padding:13px;
+border-radius:10px;
+border:1px solid #3A3340;
+background:#18141C;
+color:white;
+font-size:16px;
+margin-bottom:10px
 }
 
 button{
-  border:0;
-  border-radius:10px;
-  padding:12px;
-  font-weight:bold;
-  cursor:pointer;
+border:0;
+border-radius:10px;
+padding:12px;
+font-weight:bold;
+font-size:14px;
+cursor:pointer
 }
 
 .save{
-  width:100%;
-  margin-top:10px;
-  background:#D9A54A;
-  color:#211D26;
+width:100%;
+background:#D9A54A;
+color:#211D26
 }
 
-.services{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:15px;
+.add{
+width:100%;
+background:#3FA76C;
+color:#18141C;
+margin-bottom:15px
 }
 
-.service-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
+.cancel{
+background:#3A3340;
+color:#F3ECDF;
+width:100%;
+margin-top:8px
 }
 
-.service-name{
-  font-size:17px;
-  font-weight:bold;
-}
-
-.interval{
-  color:#A79C93;
-  font-size:12px;
-  margin-top:5px;
-}
-
-.status{
-  padding:5px 9px;
-  border-radius:20px;
-  font-size:11px;
-  white-space:nowrap;
-}
-
-.good{
-  color:#3FA76C;
-  border:1px solid #3FA76C55;
-  background:#3FA76C12;
-}
-
-.warning{
-  color:#D9A54A;
-  border:1px solid #D9A54A55;
-  background:#D9A54A12;
-}
-
-.danger{
-  color:#C1443B;
-  border:1px solid #C1443B55;
-  background:#C1443B12;
-}
-
-.info{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  text-align:center;
-  margin-top:18px;
-}
-
-.info-box{
-  background:#18141C;
-  border-radius:10px;
-  padding:10px;
-}
-
-.small{
-  color:#A79C93;
-  font-size:11px;
-}
-
-.number{
-  font-size:19px;
-  font-weight:bold;
-  margin-top:4px;
-}
-
-.edit{
-  margin-top:15px;
-  padding-top:15px;
-  border-top:1px solid #3A3340;
-}
-
-.edit button{
-  margin-top:10px;
-  width:100%;
-  background:#3FA76C;
-  color:#18141C;
+.delete{
+background:#C1443B;
+color:white;
+width:100%;
+margin-top:8px
 }
 
 .message{
-  text-align:center;
-  margin:12px 0;
-  color:#3FA76C;
+text-align:center;
+color:#3FA76C;
+margin:10px 0
 }
 
 .summary{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  margin-bottom:20px;
+display:flex;
+justify-content:center;
+gap:10px;
+margin-bottom:15px
 }
 
 .summary-box{
-  background:#18141C;
-  border:1px solid #3A3340;
-  border-radius:12px;
-  padding:10px 18px;
-  text-align:center;
+background:#18141C;
+border:1px solid #3A3340;
+border-radius:12px;
+padding:10px 18px;
+text-align:center;
+min-width:90px
 }
 
 .summary-number{
-  font-size:22px;
-  font-weight:bold;
+font-size:22px;
+font-weight:bold
+}
+
+.danger-text{color:#C1443B}
+.warning-text{color:#D9A54A}
+.good-text{color:#3FA76C}
+
+.services{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px
+}
+
+.service{
+background:#211D26;
+border:1px solid #3A3340;
+border-radius:16px;
+padding:18px
+}
+
+.service-top{
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+gap:10px
+}
+
+.service-name{
+font-size:17px;
+font-weight:bold
+}
+
+.interval{
+font-size:12px;
+color:#A79C93;
+margin-top:5px
+}
+
+.status{
+font-size:11px;
+padding:5px 8px;
+border-radius:20px;
+white-space:nowrap
+}
+
+.status-good{
+color:#3FA76C;
+background:#3FA76C15;
+border:1px solid #3FA76C55
+}
+
+.status-warning{
+color:#D9A54A;
+background:#D9A54A15;
+border:1px solid #D9A54A55
+}
+
+.status-danger{
+color:#C1443B;
+background:#C1443B15;
+border:1px solid #C1443B55
+}
+
+.info{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+margin-top:16px
+}
+
+.info-box{
+background:#18141C;
+border-radius:10px;
+padding:10px;
+text-align:center
+}
+
+.small{
+font-size:11px;
+color:#A79C93
+}
+
+.number{
+font-size:16px;
+font-weight:bold;
+margin-top:4px
+}
+
+.edit-box{
+border-top:1px solid #3A3340;
+margin-top:15px;
+padding-top:15px
+}
+
+.edit-button{
+width:100%;
+background:#D9A54A;
+color:#211D26
 }
 
 @media(max-width:650px){
-  .services{
-    grid-template-columns:1fr;
-  }
+.services{
+grid-template-columns:1fr
+}
 }
 </style>
 </head>
@@ -200,17 +234,22 @@ button{
 <div class="container">
 
 <h1>صيانة سيارتي</h1>
-<div class="subtitle">لوحة متابعة الصيانة</div>
 
-<div class="main-card">
+<div class="subtitle">
+لوحة متابعة الصيانة
+</div>
+
+<!-- قراءة العداد -->
+
+<div class="card">
 
 <label>قراءة العداد الحالية (كم)</label>
 
 <input
-  id="currentKm"
-  type="number"
-  inputmode="numeric"
-  placeholder="مثال: 45000"
+id="currentKm"
+type="number"
+inputmode="numeric"
+placeholder="مثال: 45000"
 >
 
 <button class="save" onclick="saveKm()">
@@ -221,19 +260,36 @@ button{
 
 </div>
 
+<!-- الإحصائيات -->
+
 <div class="summary">
 
 <div class="summary-box">
-<div id="dueCount" class="summary-number danger">0</div>
+<div id="dueCount" class="summary-number danger-text">0</div>
 <div class="small">مستحقة</div>
 </div>
 
 <div class="summary-box">
-<div id="warningCount" class="summary-number warning">0</div>
+<div id="warningCount" class="summary-number warning-text">0</div>
 <div class="small">قريبة</div>
 </div>
 
+<div class="summary-box">
+<div id="goodCount" class="summary-number good-text">0</div>
+<div class="small">جيدة</div>
 </div>
+
+</div>
+
+<!-- إضافة صيانة -->
+
+<button class="add" onclick="showAddForm()">
+➕ إضافة صيانة جديدة
+</button>
+
+<div id="addForm"></div>
+
+<!-- الصيانة -->
 
 <div id="services" class="services"></div>
 
@@ -241,79 +297,88 @@ button{
 
 <script>
 
-const KM_KEY = "siyana_km";
-const DATA_KEY = "siyana_services_v2";
+const KM_KEY="siyana_km_v3";
+const DATA_KEY="siyana_services_v3";
 
-const defaultServices = [
+const defaultServices=[
 
 {
- id:"oil",
- name:"🛢️ زيت المحرك وفلتره",
- interval:10000,
- years:null,
- lastKm:"",
- lastDate:""
+id:"oil",
+name:"🛢️ زيت المحرك وفلتره",
+interval:10000,
+years:null,
+lastKm:"",
+lastDate:"",
+custom:false
 },
 
 {
- id:"air",
- name:"🌬️ فلتر الهواء",
- interval:15000,
- years:null,
- lastKm:"",
- lastDate:""
+id:"air",
+name:"🌬️ فلتر الهواء",
+interval:15000,
+years:null,
+lastKm:"",
+lastDate:"",
+custom:false
 },
 
 {
- id:"fuel",
- name:"⛽ فلتر البنزين",
- interval:30000,
- years:5,
- lastKm:"",
- lastDate:""
+id:"fuel",
+name:"⛽ فلتر البنزين",
+interval:30000,
+years:5,
+lastKm:"",
+lastDate:"",
+custom:false
 },
 
 {
- id:"belt",
- name:"⚙️ حزام التوزيع",
- interval:70000,
- years:5,
- lastKm:"",
- lastDate:""
+id:"belt",
+name:"⚙️ حزام التوزيع",
+interval:70000,
+years:5,
+lastKm:"",
+lastDate:"",
+custom:false
 },
 
 {
- id:"brake",
- name:"🛑 وسادات الفرامل",
- interval:30000,
- years:null,
- lastKm:"",
- lastDate:""
+id:"brake",
+name:"🛑 وسادات الفرامل",
+interval:30000,
+years:null,
+lastKm:"",
+lastDate:"",
+custom:false
 }
 
 ];
 
-let services = defaultServices;
+let services=defaultServices;
 
 function loadData(){
 
-const savedKm = localStorage.getItem(KM_KEY);
+const km=localStorage.getItem(KM_KEY);
 
-if(savedKm !== null){
-document.getElementById("currentKm").value = savedKm;
+if(km!==null){
+document.getElementById("currentKm").value=km;
 }
 
-const savedData = localStorage.getItem(DATA_KEY);
+const data=localStorage.getItem(DATA_KEY);
 
-if(savedData){
+if(data){
 
 try{
 
-services = JSON.parse(savedData);
+const saved=JSON.parse(data);
+
+if(Array.isArray(saved)&&saved.length>0){
+services=saved;
+}
 
 }catch(e){
 
-services = defaultServices;
+services=defaultServices;
 
 }
 
@@ -321,7 +386,7 @@ services = defaultServices;
 
 }
 
-function saveAll(){
+function saveData(){
 
 localStorage.setItem(
 DATA_KEY,
@@ -332,23 +397,36 @@ JSON.stringify(services)
 
 function saveKm(){
 
-const input = document.getElementById("currentKm");
+const input=document.getElementById("currentKm");
 
-if(input.value === ""){
+if(input.value===""){
 
-document.getElementById("message").innerText =
-"أدخل قراءة العداد أولاً";
+showMessage("أدخل قراءة العداد أولاً");
 
 return;
 
 }
 
-localStorage.setItem(KM_KEY,input.value);
+localStorage.setItem(
+KM_KEY,
+input.value
+);
 
-document.getElementById("message").innerText =
-"تم حفظ قراءة العداد بنجاح ✅";
+showMessage("تم حفظ قراءة العداد ✅");
 
 render();
+
+}
+
+function showMessage(text){
+
+document.getElementById("message").innerText=text;
+
+setTimeout(function(){
+
+document.getElementById("message").innerText="";
+
+},2500);
 
 }
 
@@ -359,145 +437,123 @@ return Math.round(Number(value)||0)
 
 }
 
-function today(){
-
-return new Date()
-.toISOString()
-.slice(0,10);
-
-}
-
 function daysSince(date){
 
-if(!date) return null;
+if(!date)return null;
 
-const start =
-new Date(date+"T00:00:00");
+const d=new Date(date+"T00:00:00");
+const now=new Date();
 
-const now =
-new Date();
-
-start.setHours(0,0,0,0);
+d.setHours(0,0,0,0);
 now.setHours(0,0,0,0);
 
 return Math.floor(
-(now-start)/86400000
+(now-d)/86400000
 );
 
 }
 
-function getStatus(service){
+function getResult(service){
 
-const current =
+const current=
 Number(document.getElementById("currentKm").value)||0;
 
-const last =
+const last=
 Number(service.lastKm)||0;
 
-const used =
-Math.max(0,current-last);
+const used=Math.max(0,current-last);
 
-const remaining =
-service.interval-used;
+const remaining=
+Number(service.interval)-used;
 
-let remainingDays = null;
+let remainingDays=null;
 
-if(service.years && service.lastDate){
+if(service.years&&service.lastDate){
 
-const days =
-daysSince(service.lastDate);
+const days=daysSince(service.lastDate);
 
-remainingDays =
+remainingDays=
 service.years*365-days;
 
 }
 
+let status="good";
+let label="بحالة جيدة";
+
 if(
-remaining <= 500 ||
-(remainingDays !== null && remainingDays <= 0)
+remaining<=500||
+(remainingDays!==null&&remainingDays<=0)
 ){
 
-return {
-status:"danger",
-label:"مستحقة الآن",
-remaining:remaining,
-remainingDays:remainingDays,
-used:used
-};
+status="danger";
+label="مستحقة الآن";
+
+}else if(remaining<=2000){
+
+status="warning";
+label="قاربت على الاستحقاق";
 
 }
 
-if(remaining <= 2000){
-
-return {
-status:"warning",
-label:"قاربت على الاستحقاق",
-remaining:remaining,
-remainingDays:remainingDays,
-used:used
-};
-
-}
-
-return {
-status:"good",
-label:"بحالة جيدة",
-remaining:remaining,
-remainingDays:remainingDays,
-used:used
+return{
+used,
+remaining,
+remainingDays,
+status,
+label
 };
 
 }
 
 function render(){
 
-const container =
-document.getElementById("services");
+const box=document.getElementById("services");
 
-container.innerHTML="";
+box.innerHTML="";
 
 let due=0;
 let warning=0;
+let good=0;
 
-services.forEach((service,index)=>{
+services.forEach(function(service,index){
 
-const result =
-getStatus(service);
+const r=getResult(service);
 
-if(result.status==="danger") due++;
-if(result.status==="warning") warning++;
-
-let dateText =
-service.lastDate || "غير محدد";
-
-let lastKmText =
-service.lastKm==="" ?
-"غير محدد" :
-formatKm(service.lastKm)+" كم";
+if(r.status==="danger")due++;
+else if(r.status==="warning")warning++;
+else good++;
 
 let remainingText;
 
-if(result.remaining <= 0){
+if(r.remaining<=0){
 
-remainingText =
-"تجاوز الموعد بـ "+
-formatKm(Math.abs(result.remaining))+
+remainingText=
+"تجاوز بـ "+
+formatKm(Math.abs(r.remaining))+
 " كم";
 
 }else{
 
-remainingText =
-"المتبقي "+
-formatKm(result.remaining)+
-" كم";
+remainingText=
+formatKm(r.remaining)+" كم";
 
 }
 
-container.innerHTML += `
+let intervalText=
+"كل "+formatKm(service.interval)+" كم";
+
+if(service.years){
+
+intervalText+=
+" أو كل "+service.years+" سنوات";
+
+}
+
+box.innerHTML+=`
 
 <div class="service">
 
-<div class="service-header">
+<div class="service-top">
 
 <div>
 
@@ -506,16 +562,13 @@ ${service.name}
 </div>
 
 <div class="interval">
-كل ${formatKm(service.interval)} كم
-${service.years ?
-" أو كل "+service.years+" سنوات":
-""}
+${intervalText}
 </div>
 
 </div>
 
-<div class="status ${result.status}">
-${result.label}
+<div class="status status-${r.status}">
+${r.label}
 </div>
 
 </div>
@@ -525,9 +578,7 @@ ${result.label}
 <div class="info-box">
 
 <div class="small">
-${result.remaining<=0 ?
-"التجاوز":
-"المتبقي"}
+${r.remaining<=0?"التجاوز":"المتبقي"}
 </div>
 
 <div class="number">
@@ -543,26 +594,310 @@ ${remainingText}
 </div>
 
 <div class="number">
-${formatKm(result.used)} كم
+${formatKm(r.used)} كم
 </div>
 
 </div>
 
 </div>
 
-<div class="edit">
+<div class="edit-box">
 
 <label>
 الكيلومترات عند آخر تغيير
 </label>
 
 <input
-id="lastKm-${index}"
+id="km-${index}"
 type="number"
+inputmode="numeric"
 value="${service.lastKm}"
 placeholder="مثال: 40000"
 >
 
-<label style="margin-top:10px">
+<label>
 تاريخ آخر تغيير
-</label
+</label>
+
+<input
+id="date-${index}"
+type="date"
+value="${service.lastDate}"
+>
+
+<label>
+دورية التغيير بالكيلومترات
+</label>
+
+<input
+id="interval-${index}"
+type="number"
+inputmode="numeric"
+value="${service.interval}"
+>
+
+<label>
+الدورية بالسنوات — اختياري
+</label>
+
+<input
+id="years-${index}"
+type="number"
+inputmode="numeric"
+value="${service.years||""}"
+placeholder="مثال: 5"
+>
+
+<button
+class="edit-button"
+onclick="saveService(${index})">
+💾 حفظ البيانات
+</button>
+
+${service.custom?`
+
+<button
+class="delete"
+onclick="deleteService(${index})">
+🗑️ حذف هذه الصيانة
+</button>
+
+`:""}
+
+</div>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("dueCount").innerText=due;
+document.getElementById("warningCount").innerText=warning;
+document.getElementById("goodCount").innerText=good;
+
+}
+
+function saveService(index){
+
+const service=services[index];
+
+const km=
+document.getElementById("km-"+index).value;
+
+const date=
+document.getElementById("date-"+index).value;
+
+const interval=
+document.getElementById("interval-"+index).value;
+
+const years=
+document.getElementById("years-"+index).value;
+
+service.lastKm=
+km===""?"":Number(km);
+
+service.lastDate=date;
+
+service.interval=
+Number(interval)||service.interval;
+
+service.years=
+years===""?null:Number(years);
+
+saveData();
+
+showMessage("تم حفظ بيانات الصيانة ✅");
+
+render();
+
+}
+
+function showAddForm(){
+
+const form=document.getElementById("addForm");
+
+form.innerHTML=`
+
+<div class="card">
+
+<h3 style="color:#D9A54A;margin-top:0">
+إضافة صيانة جديدة
+</h3>
+
+<label>
+اسم الصيانة
+</label>
+
+<input
+id="newName"
+type="text"
+placeholder="مثال: شمعات الاحتراق"
+>
+
+<label>
+دورية التغيير بالكيلومترات
+</label>
+
+<input
+id="newInterval"
+type="number"
+inputmode="numeric"
+placeholder="مثال: 30000"
+>
+
+<label>
+الدورية بالسنوات — اختياري
+</label>
+
+<input
+id="newYears"
+type="number"
+inputmode="numeric"
+placeholder="مثال: 3"
+>
+
+<label>
+الكيلومترات عند آخر تغيير
+</label>
+
+<input
+id="newLastKm"
+type="number"
+inputmode="numeric"
+placeholder="مثال: 40000"
+>
+
+<label>
+تاريخ آخر تغيير
+</label>
+
+<input
+id="newDate"
+type="date"
+>
+
+<button
+class="save"
+onclick="addService()">
+إضافة الصيانة
+</button>
+
+<button
+class="cancel"
+onclick="closeAddForm()">
+إلغاء
+</button>
+
+</div>
+
+`;
+
+}
+
+function closeAddForm(){
+
+document.getElementById("addForm").innerHTML="";
+
+}
+
+function addService(){
+
+const name=
+document.getElementById("newName").value.trim();
+
+const interval=
+Number(
+document.getElementById("newInterval").value
+);
+
+const yearsValue=
+document.getElementById("newYears").value;
+
+const lastKmValue=
+document.getElementById("newLastKm").value;
+
+const date=
+document.getElementById("newDate").value;
+
+if(name===""){
+
+alert("أدخل اسم الصيانة");
+
+return;
+
+}
+
+if(!interval||interval<=0){
+
+alert("أدخل دورية صحيحة بالكيلومترات");
+
+return;
+
+}
+
+services.push({
+
+id:"custom-"+Date.now(),
+
+name:"🔧 "+name,
+
+interval:interval,
+
+years:
+yearsValue===""?
+null:
+Number(yearsValue),
+
+lastKm:
+lastKmValue===""?
+"":
+Number(lastKmValue),
+
+lastDate:date,
+
+custom:true
+
+});
+
+saveData();
+
+closeAddForm();
+
+showMessage("تمت إضافة الصيانة بنجاح ✅");
+
+render();
+
+}
+
+function deleteService(index){
+
+if(!services[index].custom){
+
+return;
+
+}
+
+if(
+confirm("هل تريد حذف هذه الصيانة؟")
+){
+
+services.splice(index,1);
+
+saveData();
+
+showMessage("تم حذف الصيانة");
+
+render();
+
+}
+
+}
+
+loadData();
+render();
+
+</script>
+
+</body>
+</html>
