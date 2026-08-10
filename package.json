@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "mkdir -p www && cp index.html www/index.html"
+  "build": "mkdir -p www && cp ./index.html ./www/index.html"
   },
   "dependencies": {
     "@capacitor/core": "^7.4.4"
