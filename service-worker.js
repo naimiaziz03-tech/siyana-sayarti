@@ -1,7 +1,7 @@
 // Bump this string every time you upload a new index.html so the app
 // updates itself automatically for everyone who already installed it —
 // nobody ever needs to delete/reinstall anything.
-var CACHE_VERSION = "car-maintenance-v1";
+var CACHE_VERSION = "car-maintenance-v4";
 
 var FILES_TO_CACHE = [
   "./",

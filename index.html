@@ -210,6 +210,32 @@ function statusForDateRange(remainingDays) {
   if (remainingDays <= REMINDER_MONTHS_BEFORE * 30) return "warn";
   return "good";
 }
+// Shows short spans in days and longer ones in months (+ leftover days),
+// since "45 يومًا" is harder to read at a glance than "شهر و15 يومًا".
+function formatDurationAr(totalDays) {
+  totalDays = Math.max(0, Math.round(totalDays));
+  if (totalDays < 30) {
+    if (totalDays === 0) return "اليوم";
+    if (totalDays === 1) return "يوم واحد";
+    if (totalDays === 2) return "يومان";
+    if (totalDays <= 10) return totalDays + " أيام";
+    return totalDays + " يومًا";
+  }
+  var months = Math.floor(totalDays / 30);
+  var days = totalDays % 30;
+  var monthsText;
+  if (months === 1) monthsText = "شهر";
+  else if (months === 2) monthsText = "شهران";
+  else if (months <= 10) monthsText = months + " أشهر";
+  else monthsText = months + " شهرًا";
+  if (days === 0) return monthsText;
+  var daysText;
+  if (days === 1) daysText = "يوم";
+  else if (days === 2) daysText = "يومان";
+  else if (days <= 10) daysText = days + " أيام";
+  else daysText = days + " يومًا";
+  return monthsText + " و" + daysText;
+}
 function statusFor(remainingKm, remainingDays) {
   var timeDue = remainingDays != null && remainingDays <= 0;
   if (remainingKm <= GAUGE_RED_KM || timeDue) return "danger";
@@ -280,7 +306,7 @@ function buildDateReminderICS(itemName, endDateISO, remainingDays, price) {
   var due = remainingDays != null && remainingDays <= 0;
   var description = due
     ? (itemName + " منتهي بتاريخ " + formatDateAr(endDateISO) + ".")
-    : (itemName + " ينتهي بتاريخ " + formatDateAr(endDateISO) + " (بعد " + remainingDays + " يومًا).");
+    : (itemName + " ينتهي بتاريخ " + formatDateAr(endDateISO) + " (بعد " + formatDurationAr(remainingDays) + ").");
   if (price) description += " السعر آخر مرة: " + price + ".";
   return [
     "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Car Maintenance//AR//EN","CALSCALE:GREGORIAN",
@@ -325,7 +351,7 @@ function buildFullReportText(items, currentKm, specialItems) {
       lines.push("• " + it.name);
       lines.push("  من: " + formatDateAr(it.startDate) + " — إلى: " + formatDateAr(it.endDate));
       if (it.price) lines.push("  السعر: " + it.price);
-      lines.push("  الحالة: " + statusText + (it.endDate && remainingDays > 0 ? " (" + remainingDays + " يومًا متبقٍ)" : ""));
+      lines.push("  الحالة: " + statusText + (it.endDate && remainingDays > 0 ? " (" + formatDurationAr(remainingDays) + " متبقٍ)" : ""));
       lines.push("");
     });
   }
@@ -712,7 +738,7 @@ function specialCardHTML(item) {
     var due = remainingDays <= 0;
     remainingHTML =
       '<div class="time-row"' + (due ? ' style="color:var(--danger);font-weight:700;"' : '') + '>' +
-        (due ? "منتهي منذ " + Math.abs(remainingDays) + " يوم" : "يتبقّى " + remainingDays + " يومًا على الانتهاء") +
+        (due ? "منتهي منذ " + formatDurationAr(Math.abs(remainingDays)) : "يتبقّى " + formatDurationAr(remainingDays) + " على الانتهاء") +
       '</div>';
   } else {
     remainingHTML = '<div class="time-row">أدخل تاريخ النهاية لحساب المدة المتبقية</div>';
@@ -947,6 +973,15 @@ document.addEventListener("input", function (e) {
   if (e.target.id === "auto-send-toggle") {
     state.autoSend = e.target.checked;
     persist();
+  }
+  if (e.target.id && e.target.id.indexOf("start-in-") === 0) {
+    var itemId = e.target.id.slice("start-in-".length);
+    var specialItem = state.specialItems.find(function (it) { return it.id === itemId; });
+    if (specialItem && e.target.value) {
+      var endEl = document.getElementById("end-in-" + itemId);
+      var nextYear = addYearsISO(e.target.value, 1);
+      if (endEl && nextYear) endEl.value = nextYear.toISOString().slice(0, 10);
+    }
   }
 });
 
