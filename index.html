@@ -4,7 +4,10 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
 <title>صيانة سيارتي</title>
-<link rel="icon" href="data:," />
+<link rel="icon" href="icon.svg" />
+<link rel="manifest" href="manifest.json" />
+<link rel="apple-touch-icon" href="icon.svg" />
+<meta name="theme-color" content="#221D24" />
 <style>
   :root {
     --bg1: #221D24; --bg2: #1A1712; --bg3: #120F0C;
@@ -959,6 +962,17 @@ document.addEventListener("change", function (e) {
 /* ---------- Init ---------- */
 loadState();
 renderApp();
+
+/* ---------- PWA install + auto-update ---------- */
+// Registering this lets the browser offer a real "Install" prompt (in
+// addition to "Add to Home Screen") and lets service-worker.js pick up a
+// fresh index.html automatically next time the app is opened online —
+// updating never requires deleting the installed app first.
+if ("serviceWorker" in navigator) {
+  try {
+    navigator.serviceWorker.register("service-worker.js").catch(function () {});
+  } catch (e) { /* unsupported browser — app still works fine without it */ }
+}
 </script>
 </body>
 </html>

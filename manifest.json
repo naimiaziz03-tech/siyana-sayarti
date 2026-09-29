@@ -1,0 +1,17 @@
+{
+  "name": "صيانة سيارتي",
+  "short_name": "صيانة السيارة",
+  "description": "متابعة صيانة السيارة، التأمين، والفحص التقني",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "dir": "rtl",
+  "lang": "ar",
+  "background_color": "#120F0C",
+  "theme_color": "#221D24",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}
